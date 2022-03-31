@@ -13,7 +13,6 @@ import com.example.appmusicsamsung1.databinding.MusicViewBinding
 
 class MusicAdapter(private val context: Context, private val musicList: ArrayList<Music>) : RecyclerView.Adapter<MusicAdapter.MyHolder>() {
 
-
     class MyHolder(binding: MusicViewBinding) : RecyclerView.ViewHolder(binding.root) {
         val title = binding.songNameMV
         val album = binding.songAlbumMV

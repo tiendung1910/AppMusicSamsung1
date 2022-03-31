@@ -11,7 +11,6 @@ class MusicService: Service() {
     var mediaPlayer:MediaPlayer? = null
 
     override fun onBind(p0: Intent?): IBinder? {
-        TODO("Not yet implemented")
         return myBinder
     }
 

@@ -28,7 +28,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
         setContentView(binding.root)
 
         val intent = Intent(this,MusicService::class.java)
-        bindService(intent,this, BIND_ABOVE_CLIENT)
+        bindService(intent,this, BIND_AUTO_CREATE)
         initializeLayout()
         binding.playPauseBtnPA.setOnClickListener {
             if (isPlaying) {
@@ -88,15 +88,15 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
                 musicListPA = ArrayList()
                 musicListPA.addAll(MainActivity.MusicListMA)
                 setLayout()
-
+                createMediaPlayer()
             }
-            "MainActivity" -> {
-                musicListPA = ArrayList()
-                musicListPA.addAll(MainActivity.MusicListMA)
-                musicListPA.shuffle()
-                setLayout()
-
-            }
+//            "MainActivity" -> {
+//                musicListPA = ArrayList()
+//                musicListPA.addAll(MainActivity.MusicListMA)
+//                musicListPA.shuffle()
+//                setLayout()
+//
+//            }
         }
     }
 
@@ -137,14 +137,12 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection {
     }
 
     override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
-        TODO("Not yet implemented")
         val binder = p1 as MusicService.MyBinder
         musicService = binder.currentService()
         createMediaPlayer()
     }
 
     override fun onServiceDisconnected(p0: ComponentName?) {
-        TODO("Not yet implemented")
         musicService = null
 
     }

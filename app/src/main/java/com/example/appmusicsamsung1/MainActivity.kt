@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.navView.setNavigationItemSelectedListener {
-            when (it.itemId){
+            when (it.itemId) {
                 R.id.navFeedback -> Toast.makeText(baseContext,"Feed",Toast.LENGTH_SHORT).show()
                 R.id.navSettings -> Toast.makeText(baseContext,"Settings",Toast.LENGTH_SHORT).show()
                 R.id.navAbout -> Toast.makeText(baseContext,"About",Toast.LENGTH_SHORT).show()
