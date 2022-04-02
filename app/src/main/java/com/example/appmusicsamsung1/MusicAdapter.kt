@@ -25,7 +25,6 @@ class MusicAdapter(private val context: Context, private val musicList: ArrayLis
         return MyHolder(MusicViewBinding.inflate(LayoutInflater.from(context),parent,false))
     }
 
-//    error
     override fun onBindViewHolder(holder: MusicAdapter.MyHolder, position: Int) {
         holder.title.text = musicList[position].title
         holder.album.text = musicList[position].album

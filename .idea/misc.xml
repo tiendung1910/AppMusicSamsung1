@@ -4,10 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/back_icon.xml" value="0.287" />
-        <entry key="app/src/main/res/drawable/back_icon2.xml" value="0.19" />
+        <entry key="app/src/main/res/drawable/back_icon2.xml" value="0.15" />
         <entry key="app/src/main/res/drawable/favorite_icon.xml" value="0.309" />
         <entry key="app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.309" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.309" />
+        <entry key="app/src/main/res/drawable/next_icon.xml" value="0.191" />
+        <entry key="app/src/main/res/drawable/play_icon.xml" value="0.191" />
         <entry key="app/src/main/res/drawable/playlist_icon.xml" value="0.287" />
         <entry key="app/src/main/res/drawable/shuffle_icon.xml" value="0.287" />
         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.25" />
