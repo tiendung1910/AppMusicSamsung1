@@ -3,13 +3,17 @@ package com.example.appmusicsamsung1
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appmusicsamsung1.databinding.ActivityMainBinding
@@ -25,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         lateinit var MusicListMA : ArrayList<Music>
+        lateinit var musicListSearch: ArrayList<Music>
+        var search: Boolean = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             initializeLayout()
 
         binding.shuffleBtn.setOnClickListener {
-//            Toast.makeText(this@MainActivity,"Button Clicked",Toast.LENGTH_SHORT).show()
+
             intent.putExtra("index",0)
             intent.putExtra("class","MainActivity")
             startActivity(Intent(this@MainActivity,PlayerActivity::class.java))
@@ -55,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.playlistBtn.setOnClickListener {
-            startActivity(Intent(this@MainActivity,PlayerActivity::class.java))
+            startActivity(Intent(this@MainActivity,PlaylistActivity::class.java))
         }
 
         binding.navView.setNavigationItemSelectedListener {
@@ -67,14 +73,21 @@ class MainActivity : AppCompatActivity() {
                     val builder = MaterialAlertDialogBuilder(this)
                     builder.setTitle("Exit").setMessage("Do you want close?")
                         .setPositiveButton("Yes") {_, _ ->
+                            if (PlayerActivity.musicService != null) {
                             PlayerActivity.musicService!!.stopForeground(true)
                             PlayerActivity.musicService!!.mediaPlayer!!.release()
                             PlayerActivity.musicService = null
+                    }
                             exitProcess(1)
                         }
                         .setNegativeButton("No") {dialog,_ ->
                             dialog.dismiss()
                         }
+
+                    val customDialog = builder.create()
+                    customDialog.show()
+                    customDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED)
+                    customDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED)
                 }
             }
             true
@@ -119,6 +132,7 @@ class MainActivity : AppCompatActivity() {
 
 //        val musicList = ArrayList<String>()
 //        musicList.add("1 Song")
+        search = false
 
         MusicListMA = getAllAudio()
         binding.musicRV.setHasFixedSize(true)
@@ -177,6 +191,29 @@ class MainActivity : AppCompatActivity() {
             PlayerActivity.musicService = null
             exitProcess(1)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_view,menu)
+        val searchView = menu?.findItem(R.id.searchView)?.actionView as SearchView
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean = true
+
+            override fun onQueryTextChange(string: String?): Boolean {
+                musicListSearch = ArrayList()
+                if(string != null) {
+                    val userInput = string.lowercase()
+                    for (song in MusicListMA)
+                        if (song.title.lowercase().contains(userInput))
+                            musicListSearch.add(song)
+                    search = true
+                    musicAdapter.updateMusicList(searchList = musicListSearch)
+                }
+                return true
+            }
+
+        })
+        return super.onCreateOptionsMenu(menu)
     }
 
 }

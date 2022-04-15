@@ -11,7 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.appmusicsamsung1.databinding.ActivityFavouriteBinding
 import com.example.appmusicsamsung1.databinding.MusicViewBinding
 
-class MusicAdapter(private val context: Context, private val musicList: ArrayList<Music>) : RecyclerView.Adapter<MusicAdapter.MyHolder>() {
+class MusicAdapter(private val context: Context, private var musicList: ArrayList<Music>) : RecyclerView.Adapter<MusicAdapter.MyHolder>() {
 
     class MyHolder(binding: MusicViewBinding) : RecyclerView.ViewHolder(binding.root) {
         val title = binding.songNameMV
@@ -33,10 +33,12 @@ class MusicAdapter(private val context: Context, private val musicList: ArrayLis
             .apply(RequestOptions().placeholder(R.drawable.app_music_player_slash_screen).centerCrop())
             .into(holder.image)
         holder.root.setOnClickListener{
-            val intent = Intent(context,PlayerActivity::class.java)
-            intent.putExtra("index",position)
-            intent.putExtra("class","MusicAdapter")
-            ContextCompat.startActivity(context,intent,null)
+            when {
+                MainActivity.search -> sendIntent("MusicAdapterSearch",position)
+                else -> sendIntent("MusicAdapter",position)
+            }
+
+
         }
 
     }
@@ -45,4 +47,16 @@ class MusicAdapter(private val context: Context, private val musicList: ArrayLis
         return musicList.size
     }
 
+    fun updateMusicList(searchList : ArrayList<Music>) {
+        musicList = ArrayList()
+        musicList.addAll(searchList)
+        notifyDataSetChanged()
+    }
+
+    private fun sendIntent(s : String, pos: Int) {
+        val intent = Intent(context,PlayerActivity::class.java)
+        intent.putExtra("index",pos)
+        intent.putExtra("class",s)
+        ContextCompat.startActivity(context,intent,null)
+    }
 }

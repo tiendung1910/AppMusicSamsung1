@@ -14,7 +14,7 @@ import androidx.core.app.NotificationCompat
 
 class MusicService: Service() {
     private var myBinder = MyBinder()
-    var mediaPlayer:MediaPlayer? = null
+    var mediaPlayer: MediaPlayer? = null
     private lateinit var mediaSession: MediaSessionCompat
     private lateinit var runnable: Runnable
 

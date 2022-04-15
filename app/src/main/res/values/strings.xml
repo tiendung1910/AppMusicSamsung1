@@ -22,5 +22,6 @@
     <string name="about">About</string>
     <string name="exit">Exit</string>
     <string name="song_album">Song Album</string>
+    <string name="search_view">Search</string>
     
 </resources>
