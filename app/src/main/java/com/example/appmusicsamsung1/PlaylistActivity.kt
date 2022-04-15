@@ -13,5 +13,7 @@ class PlaylistActivity : AppCompatActivity() {
         setTheme(R.style.Theme_AppMusicSamsung1)
         binding = ActivityPlaylistBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_playlist)
+
+        binding.backBtnPl.setOnClickListener { finish() }
     }
 }

@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appmusicsamsung1.databinding.ActivityMainBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -29,9 +30,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setTheme(R.style.coolPinkNav)
+        setTheme(R.style.Theme_AppMusicSamsung1)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 //        nav drawer
         toggle = ActionBarDrawerToggle(this,binding.root,R.string.open,R.string.close)
         binding.root.addDrawerListener(toggle)
@@ -61,7 +63,19 @@ class MainActivity : AppCompatActivity() {
                 R.id.navFeedback -> Toast.makeText(baseContext,"Feed",Toast.LENGTH_SHORT).show()
                 R.id.navSettings -> Toast.makeText(baseContext,"Settings",Toast.LENGTH_SHORT).show()
                 R.id.navAbout -> Toast.makeText(baseContext,"About",Toast.LENGTH_SHORT).show()
-                R.id.navExit -> exitProcess(1)
+                R.id.navExit -> {
+                    val builder = MaterialAlertDialogBuilder(this)
+                    builder.setTitle("Exit").setMessage("Do you want close?")
+                        .setPositiveButton("Yes") {_, _ ->
+                            PlayerActivity.musicService!!.stopForeground(true)
+                            PlayerActivity.musicService!!.mediaPlayer!!.release()
+                            PlayerActivity.musicService = null
+                            exitProcess(1)
+                        }
+                        .setNegativeButton("No") {dialog,_ ->
+                            dialog.dismiss()
+                        }
+                }
             }
             true
 
@@ -105,10 +119,7 @@ class MainActivity : AppCompatActivity() {
 
 //        val musicList = ArrayList<String>()
 //        musicList.add("1 Song")
-//        musicList.add("1 Song")
-//        musicList.add("1 Song")
-//        musicList.add("1 Song")
-//        musicList.add("1 Song")
+
         MusicListMA = getAllAudio()
         binding.musicRV.setHasFixedSize(true)
         binding.musicRV.setItemViewCacheSize(13)
@@ -156,6 +167,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         return tempList
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (!PlayerActivity.isPlaying && PlayerActivity.musicService != null) {
+            PlayerActivity.musicService!!.stopForeground(true)
+            PlayerActivity.musicService!!.mediaPlayer!!.release()
+            PlayerActivity.musicService = null
+            exitProcess(1)
+        }
     }
 
 }
