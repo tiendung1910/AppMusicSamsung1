@@ -31,10 +31,6 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        val intent = Intent(this,MusicService::class.java)
-        bindService(intent,this, BIND_AUTO_CREATE)
-        startService(intent)
         initializeLayout()
         binding.backBtn.setOnClickListener { finish() }
         binding.playPauseBtnPA.setOnClickListener {
@@ -102,18 +98,37 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
     private fun initializeLayout() {
         songPosition = intent.getIntExtra("index",0)
         when(intent.getStringExtra("class")) {
+            "NowPlaying" -> {
+                setLayout()
+                binding.durationSeekbar.text = formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
+                binding.endSeekbar.text = formatDuration(musicService!!.mediaPlayer!!.duration.toLong())
+                binding.seekbarMusic.progress = musicService!!.mediaPlayer!!.currentPosition
+                binding.seekbarMusic.max =  musicService!!.mediaPlayer!!.duration
+                if(isPlaying) binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
+                else binding.playPauseBtnPA.setIconResource(R.drawable.play_icon)
+
+            }
             "MusicAdapterSearch" -> {
+                val intent = Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startService(intent)
                 musicListPA = ArrayList()
                 musicListPA.addAll(MainActivity.musicListSearch)
                 setLayout()
             }
             "MusicAdapter" -> {
+                val intent = Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startService(intent)
                 musicListPA = ArrayList()
                 musicListPA.addAll(MainActivity.MusicListMA)
                 setLayout()
 //                createMediaPlayer()
             }
             "MainActivity" -> {
+                val intent = Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startService(intent)
                 musicListPA = ArrayList()
                 musicListPA.addAll(MainActivity.MusicListMA)
                 musicListPA.shuffle()

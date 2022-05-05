@@ -37,8 +37,6 @@ class MusicAdapter(private val context: Context, private var musicList: ArrayLis
                 MainActivity.search -> sendIntent("MusicAdapterSearch",position)
                 else -> sendIntent("MusicAdapter",position)
             }
-
-
         }
 
     }

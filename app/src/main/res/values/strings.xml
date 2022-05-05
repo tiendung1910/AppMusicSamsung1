@@ -23,5 +23,9 @@
     <string name="exit">Exit</string>
     <string name="song_album">Song Album</string>
     <string name="search_view">Search</string>
-    
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="next_btn_np">Next button now playing</string>
+    <string name="play_pause_btn_np">Play pause button now playing</string>
+
 </resources>
