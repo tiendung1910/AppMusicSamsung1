@@ -18,6 +18,9 @@ import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appmusicsamsung1.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -46,8 +49,20 @@ class MainActivity : AppCompatActivity() {
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        if(requestRuntimePermission())
+        if(requestRuntimePermission()){
             initializeLayout()
+            FavouriteActivity.favouriteSongs = ArrayList()
+            val editor = getSharedPreferences("FAVOURITES", MODE_PRIVATE)
+            val jsonString = editor.getString("FavouriteSongs",null)
+            val typeJson = object : TypeToken<ArrayList<Music>>() {}.type
+
+            if(jsonString != null) {
+                val data: ArrayList<Music> = GsonBuilder().create().fromJson(jsonString,typeJson)
+                FavouriteActivity.favouriteSongs.addAll(data)
+            }
+        }
+
+
 
         binding.shuffleBtn.setOnClickListener {
 
@@ -66,9 +81,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.navFeedback -> Toast.makeText(baseContext,"Feed",Toast.LENGTH_SHORT).show()
-                R.id.navSettings -> Toast.makeText(baseContext,"Settings",Toast.LENGTH_SHORT).show()
-                R.id.navAbout -> Toast.makeText(baseContext,"About",Toast.LENGTH_SHORT).show()
+                R.id.navFeedback -> startActivity(Intent(this@MainActivity,FeedbackActivity::class.java))
+                R.id.navSettings -> startActivity(Intent(this@MainActivity,SettingActivity::class.java))
+                R.id.navAbout -> startActivity(Intent(this@MainActivity,AboutActivity::class.java))
                 R.id.navExit -> {
                     val builder = MaterialAlertDialogBuilder(this)
                     builder.setTitle("Exit").setMessage("Do you want close?")
@@ -191,6 +206,14 @@ class MainActivity : AppCompatActivity() {
             PlayerActivity.musicService = null
             exitProcess(1)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val editor = getSharedPreferences("FAVOURITES", MODE_PRIVATE).edit()
+        val jsonString = GsonBuilder().create().toJson(FavouriteActivity.favouriteSongs)
+        editor.putString("FavouriteSongs",jsonString)
+        editor.apply()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

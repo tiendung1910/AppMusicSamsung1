@@ -11,7 +11,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.appmusicsamsung1.databinding.ActivityFavouriteBinding
 import com.example.appmusicsamsung1.databinding.MusicViewBinding
 
-class MusicAdapter(private val context: Context, private var musicList: ArrayList<Music>) : RecyclerView.Adapter<MusicAdapter.MyHolder>() {
+class MusicAdapter(private val context: Context, private var musicList: ArrayList<Music>,private var playlistDetails: Boolean = false,
+private val selectionActivity: Boolean=false) : RecyclerView.Adapter<MusicAdapter.MyHolder>() {
 
     class MyHolder(binding: MusicViewBinding) : RecyclerView.ViewHolder(binding.root) {
         val title = binding.songNameMV
@@ -32,13 +33,36 @@ class MusicAdapter(private val context: Context, private var musicList: ArrayLis
         Glide.with(context).load(musicList[position].imgUri)
             .apply(RequestOptions().placeholder(R.drawable.app_music_player_slash_screen).centerCrop())
             .into(holder.image)
+        when {
+            playlistDetails -> {
+                holder.root.setOnClickListener {
+                    sendIntent("PlaylistDetailsAdapter",pos=position)
+                }
+            }
+            selectionActivity -> {
+                holder.root.setOnClickListener {
+                    if (addSong(musicList[position]))
+                        holder.root.setBackgroundColor(ContextCompat.getColor(context,R.color.cool_pink))
+                    else
+                        holder.root.setBackgroundColor(ContextCompat.getColor(context,R.color.white))
+                }
+            }
+            else -> {holder.root.setOnClickListener{
+                when {
+                    MainActivity.search -> sendIntent("MusicAdapterSearch",position)
+                    musicList[position].id == PlayerActivity.nowPlayingId ->
+                        sendIntent("NowPlaying",PlayerActivity.songPosition)
+                    else -> sendIntent("MusicAdapter",position)
+                }
+            }}
+        }
+
         holder.root.setOnClickListener{
             when {
                 MainActivity.search -> sendIntent("MusicAdapterSearch",position)
                 else -> sendIntent("MusicAdapter",position)
             }
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -56,5 +80,22 @@ class MusicAdapter(private val context: Context, private var musicList: ArrayLis
         intent.putExtra("index",pos)
         intent.putExtra("class",s)
         ContextCompat.startActivity(context,intent,null)
+    }
+
+    private fun addSong(song: Music): Boolean {
+        PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.forEachIndexed {index, music ->
+            if (song.id == music.id) {
+                PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.removeAt(index)
+                return false
+            }
+        }
+        PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.add(song)
+        return true
+    }
+
+    fun refreshPlaylist() {
+        musicList = ArrayList()
+        musicList = PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist
+        notifyDataSetChanged()
     }
 }

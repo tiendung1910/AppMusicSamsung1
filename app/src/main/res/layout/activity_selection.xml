@@ -4,41 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlaylistActivity">
+    tools:context=".SelectionActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/cool_pink"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="5dp">
 
         <ImageButton
-            android:id="@+id/back_btn_pl"
+            android:id="@+id/backBtnSA"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:backgroundTint="@android:color/transparent"
             android:src="@drawable/back_icon"
             app:tint="@color/black"
             android:contentDescription="@string/back_icon_description"/>
-
-        <TextView
+        
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchViewSA"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/favourite_btn"
-            android:gravity="center"
-            android:text="@string/playlist_btn"
-            android:textColor="@color/black"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:layout_height="50dp"
+            app:queryHint="@string/search_song"
+            android:focusable="false"
+            app:iconifiedByDefault="false"
+            android:background="@drawable/custom_search_view"
+            android:layout_margin="3dp"/>
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/playlistRV"
+        android:id="@+id/selectionRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,21 +47,5 @@
         android:scrollbars="vertical"
         android:paddingBottom="40dp"
         android:layout_marginTop="10dp"/>
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/addPlaylistBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        app:icon="@drawable/add_icon"
-        app:iconSize="35dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintHorizontal_bias="0.791"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.878"
-        app:strokeColor="@color/cool_green"
-        app:strokeWidth="2dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

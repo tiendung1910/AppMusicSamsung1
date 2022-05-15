@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlaylistDetails">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/cool_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/backBtnPD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/back_icon"
+            app:tint="@color/black"
+            android:contentDescription="@string/back_icon_description"/>
+
+        <TextView
+            android:id="@+id/playlistNamePD"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/favourite_btn"
+            android:gravity="center"
+            android:text="@string/playlist_btn"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:singleLine="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutDetails"
+        android:layout_width="match_parent"
+        android:layout_height="188dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        android:layout_marginTop="15dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/playlistImgPD"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/app_music_player_slash_screen"/>
+
+        <TextView
+            android:id="@+id/moreInfoPD"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/playlist_name"
+            android:gravity="center|start"
+            android:layout_marginHorizontal="5dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:background="@color/cool_green"
+            android:paddingHorizontal="10dp"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/playlistDetailsRV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayoutDetails"
+        android:scrollbars="vertical"
+        android:paddingBottom="280dp"
+        android:layout_marginTop="10dp"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/shuffleBtnPD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        app:icon="@drawable/shuffle_icon"
+        app:iconSize="35dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.791"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.878"
+        app:strokeColor="@color/cool_green"
+        app:strokeWidth="2dp"
+        android:visibility="invisible"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="UselessParent">
+
+        <Button
+            android:id="@+id/addBtnPD"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/shuffle_btn"
+            android:drawableTop="@drawable/add_icon"
+            android:text="@string/add"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
+
+<!--        remove button-->
+        <Button
+            android:id="@+id/removeBtnPD"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/playlist_btn"
+            android:drawableTop="@drawable/delete_icon"
+            android:text="@string/delete_all"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

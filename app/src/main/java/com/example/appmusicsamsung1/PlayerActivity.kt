@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.media.AudioManager
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.appmusicsamsung1.databinding.ActivityPlayerBinding
+import com.example.appmusicsamsung1.databinding.FavoriteViewBinding
 
 class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionListener {
     companion object {
@@ -23,6 +25,9 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         var musicService: MusicService? = null
         lateinit var binding: ActivityPlayerBinding
         var repeat: Boolean = false
+        var nowPlayingId: String = ""
+        var isFavourite: Boolean = false
+        var fIndex: Int = -1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,15 +69,31 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
                 binding.repeatBtn.setColorFilter(ContextCompat.getColor(this,R.color.black))
             }
         }
+        binding.favouriteBtnPA.setOnClickListener {
+            if(isFavourite) {
+                isFavourite = false
+                binding.favouriteBtnPA.setImageResource(R.drawable.favorite_empty_icon)
+                FavouriteActivity.favouriteSongs.removeAt(fIndex)
+
+            }else{
+                isFavourite = true
+                binding.favouriteBtnPA.setImageResource(R.drawable.favorite_icon)
+                FavouriteActivity.favouriteSongs.add(musicListPA[songPosition])
+            }
+        }
     }
 
     private fun setLayout() {
+        fIndex = favouriteChecker(musicListPA[songPosition].id)
         Glide.with(this)
             .load(musicListPA[songPosition].imgUri)
             .apply(RequestOptions().placeholder(R.drawable.app_music_player_slash_screen).centerCrop())
             .into(binding.songImg)
         binding.songName.text = musicListPA[songPosition].title
         if (repeat) binding.repeatBtn.setColorFilter(ContextCompat.getColor(this,R.color.purple_500))
+        if (isFavourite) binding.favouriteBtnPA.setImageResource(R.drawable.favorite_icon)
+        else binding.favouriteBtnPA.setImageResource(R.drawable.favorite_empty_icon)
+
     }
 
     private fun createMediaPlayer(){
@@ -98,6 +119,14 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
     private fun initializeLayout() {
         songPosition = intent.getIntExtra("index",0)
         when(intent.getStringExtra("class")) {
+            "FavouriteAdapter" -> {
+                val intent = Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startService(intent)
+                musicListPA = ArrayList()
+                musicListPA.addAll(FavouriteActivity.favouriteSongs)
+                setLayout()
+            }
             "NowPlaying" -> {
                 setLayout()
                 binding.durationSeekbar.text = formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
@@ -135,6 +164,23 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
                 setLayout()
 
             }
+            "PlaylistDetailsAdapter" -> {
+                val intent = Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startService(intent)
+                musicListPA = ArrayList()
+                musicListPA.addAll(PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist)
+                setLayout()
+            }
+            "PlaylistDetailsShuffle" -> {
+                val intent = Intent(this,MusicService::class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startService(intent)
+                musicListPA = ArrayList()
+                musicListPA.addAll(PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist)
+                musicListPA.shuffle()
+                setLayout()
+            }
         }
     }
 
@@ -169,6 +215,8 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         musicService = binder.currentService()
         createMediaPlayer()
         musicService!!.seekBarSetup()
+        musicService!!.audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        musicService!!.audioManager.requestAudioFocus(musicService,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN)
     }
 
     override fun onServiceDisconnected(p0: ComponentName?) {
