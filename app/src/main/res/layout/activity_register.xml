@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Authentication.RegisterActivity">
+
+    <EditText
+        android:id="@+id/RegisterEmail"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="184dp"
+        android:paddingLeft="20dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textPersonName"
+        android:background="@drawable/rounded_edittext_register_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/RegisterPassword"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_edittext_register_login"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/RegisterEmail"
+        app:layout_constraintStart_toStartOf="@+id/RegisterEmail"
+        app:layout_constraintTop_toBottomOf="@+id/RegisterEmail" />
+
+    <EditText
+        android:id="@+id/RegisterRepeatPassword"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_edittext_register_login"
+        android:ems="10"
+        android:hint="Repeat Password"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/RegisterPassword"
+        app:layout_constraintStart_toStartOf="@+id/RegisterPassword"
+        app:layout_constraintTop_toBottomOf="@+id/RegisterPassword" />
+
+    <Button
+        android:id="@+id/RegisterBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Register"
+        android:background="@drawable/rounded_button_register_login"
+        app:layout_constraintEnd_toEndOf="@+id/RegisterRepeatPassword"
+        app:layout_constraintStart_toStartOf="@+id/RegisterRepeatPassword"
+        app:layout_constraintTop_toBottomOf="@+id/RegisterRepeatPassword" />
+
+    <TextView
+        android:id="@+id/LoginRedirect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Bạn đã có tài khoản, đăng nhập tại đây"
+        app:layout_constraintEnd_toEndOf="@+id/RegisterBtn"
+        app:layout_constraintStart_toStartOf="@+id/RegisterBtn"
+        app:layout_constraintTop_toBottomOf="@+id/RegisterBtn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

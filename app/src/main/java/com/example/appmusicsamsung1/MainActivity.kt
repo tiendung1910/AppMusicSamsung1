@@ -16,6 +16,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.appmusicsamsung1.Authentication.LoginActivity
 import com.example.appmusicsamsung1.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
+                R.id.navLogin -> startActivity(Intent(this@MainActivity,LoginActivity::class.java))
                 R.id.navFeedback -> startActivity(Intent(this@MainActivity,FeedbackActivity::class.java))
                 R.id.navSettings -> startActivity(Intent(this@MainActivity,SettingActivity::class.java))
                 R.id.navAbout -> startActivity(Intent(this@MainActivity,AboutActivity::class.java))
