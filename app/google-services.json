@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "909501353236",
+    "project_id": "appmusicsamsung",
+    "storage_bucket": "appmusicsamsung.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909501353236:android:a49f8f08b9f7b2c73e8601",
+        "android_client_info": {
+          "package_name": "com.example.appmusicsamsung1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909501353236-q89so5mg8cei7lvoan0it7tn1tiujoa9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo_wHNY16lxFuI_D92aCZdJHGjvu_G7JA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909501353236-q89so5mg8cei7lvoan0it7tn1tiujoa9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

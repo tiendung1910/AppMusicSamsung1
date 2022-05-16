@@ -54,5 +54,12 @@ dependencies {
 //    mail
     implementation 'com.sun.mail:android-mail:1.6.2'
     implementation 'com.sun.mail:android-activation:1.6.2'
-
+//    firebase (hieu)
+    implementation platform('com.google.firebase:firebase-bom:30.0.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth'
 }
+
+//    firebase (hieu)
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
